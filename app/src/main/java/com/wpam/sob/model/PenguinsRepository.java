@@ -61,4 +61,12 @@ public class PenguinsRepository {
                 "żółtooki"
         );
     }
+
+    public String get(int position) {
+        return fetchAll().get(position);
+    }
+
+    public int getCount() {
+        return fetchAll().size();
+    }
 }
