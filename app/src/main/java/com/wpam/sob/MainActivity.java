@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +14,14 @@ import android.widget.TextView;
 import com.wpam.sob.model.PenguinsRepository;
 import com.wpam.sob.model.StackOverflowRepository;
 import com.wpam.sob.stackoverflow.Issue;
+import com.wpam.sob.stackoverflow.StackOverflowSearchResponse;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,11 +36,21 @@ public class MainActivity extends AppCompatActivity {
         penguinsRecycleView.setAdapter(issuesAdapter);
 
         StackOverflowRepository stackOverflowRepository = new StackOverflowRepository();
-        try {
-            issuesAdapter.updateIssues(stackOverflowRepository.search("Kotlin"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            stackOverflowRepository.search("Kotlin",
+                    new Callback<StackOverflowSearchResponse>() {
+                @Override
+                public void onResponse(Call<StackOverflowSearchResponse> call, Response<StackOverflowSearchResponse> response) {
+                    Log.d("callback", "Gotrespmce");
+                    Log.d("callback", "size: " + response.body().getItems());
+                    issuesAdapter.updateIssues(response.body().getItems());
+                }
+
+                @Override
+                public void onFailure(Call<StackOverflowSearchResponse> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+
 
     }
 }
@@ -51,7 +68,7 @@ class IssueViewHolder extends RecyclerView.ViewHolder {
 
 class IssuesAdapter extends RecyclerView.Adapter<IssueViewHolder> {
 
-    private List<Issue> issues;
+    private List<Issue> issues = new ArrayList<>();
 
     public IssuesAdapter() {
     }

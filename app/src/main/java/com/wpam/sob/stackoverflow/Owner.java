@@ -7,6 +7,9 @@ public class Owner {
     @SerializedName("display_name")
     private String name;
 
+    public Owner() {
+    }
+
     public Owner(String name) {
         this.name = name;
     }
