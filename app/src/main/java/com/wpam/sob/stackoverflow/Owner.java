@@ -7,6 +7,9 @@ public class Owner {
     @SerializedName("display_name")
     private String name;
 
+    @SerializedName("profile_image")
+    private String avatarUrl;
+
     public Owner() {
     }
 
@@ -20,5 +23,13 @@ public class Owner {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }

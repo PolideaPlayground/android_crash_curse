@@ -9,8 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.wpam.sob.model.PenguinsRepository;
 import com.wpam.sob.model.StackOverflowRepository;
 import com.wpam.sob.stackoverflow.Issue;
@@ -61,6 +63,7 @@ class IssueViewHolder extends RecyclerView.ViewHolder {
     TextView score;
     TextView userName;
     TextView answerCount;
+    ImageView imageView;
 
     public IssueViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -68,7 +71,10 @@ class IssueViewHolder extends RecyclerView.ViewHolder {
         score = itemView.findViewById(R.id.score);
         userName = itemView.findViewById(R.id.user_name);
         answerCount = itemView.findViewById(R.id.answers_count);
+        imageView = itemView.findViewById(R.id.avatar);
     }
+
+
 
 }
 
@@ -91,7 +97,7 @@ class IssuesAdapter extends RecyclerView.Adapter<IssueViewHolder> {
         holder.answerCount.setText(issues.get(position).getAnswerCount() + "");
         holder.score.setText(issues.get(position).getScore() + "");
         holder.userName.setText(issues.get(position).getOwner().getName());
-
+        Picasso.get().load(issues.get(position).getOwner().getAvatarUrl()).into(holder.imageView);
     }
 
     @Override
