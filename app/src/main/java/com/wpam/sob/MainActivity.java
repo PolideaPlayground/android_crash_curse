@@ -57,11 +57,17 @@ public class MainActivity extends AppCompatActivity {
 
 class IssueViewHolder extends RecyclerView.ViewHolder {
 
-    TextView textView;
+    TextView title;
+    TextView score;
+    TextView userName;
+    TextView answerCount;
 
     public IssueViewHolder(@NonNull View itemView) {
         super(itemView);
-        textView = itemView.findViewById(R.id.text);
+        title = itemView.findViewById(R.id.title);
+        score = itemView.findViewById(R.id.score);
+        userName = itemView.findViewById(R.id.user_name);
+        answerCount = itemView.findViewById(R.id.answers_count);
     }
 
 }
@@ -81,7 +87,10 @@ class IssuesAdapter extends RecyclerView.Adapter<IssueViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull IssueViewHolder holder, int position) {
-        holder.textView.setText(issues.get(position).getTitle());
+        holder.title.setText(issues.get(position).getTitle());
+        holder.answerCount.setText(issues.get(position).getAnswerCount() + "");
+        holder.score.setText(issues.get(position).getScore() + "");
+        holder.userName.setText(issues.get(position).getOwner().getName());
 
     }
 

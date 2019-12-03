@@ -6,6 +6,7 @@ public class Issue {
 
     @SerializedName("answer_count")
     private int answerCount;
+    private int score;
     private String title;
     private Owner owner;
 
@@ -40,5 +41,13 @@ public class Issue {
 
     public Owner getOwner() {
         return owner;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }
