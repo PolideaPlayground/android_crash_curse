@@ -4,16 +4,21 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.wpam.sob.room.AppDatabase;
+import com.wpam.sob.view.FavouritesFragment;
+import com.wpam.sob.view.SearchFragment;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    public static AppDatabase appDatabase;
 
     DemoCollectionAdapter demoCollectionAdapter;
     ViewPager2 viewPager;
@@ -22,6 +27,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        appDatabase = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "wpam-db")
+                .allowMainThreadQueries()
+                .build();
+
 
         demoCollectionAdapter = new DemoCollectionAdapter(this);
         viewPager = findViewById(R.id.pager);
@@ -42,11 +53,14 @@ class DemoCollectionAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        Fragment fragment = new SearchFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+        if (position == 0) {
+            return new SearchFragment();
+        } else {
+            return new FavouritesFragment();
+        }
     }
+
+
 
     @Override
     public int getItemCount() {
